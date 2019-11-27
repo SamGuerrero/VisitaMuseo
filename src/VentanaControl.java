@@ -1,8 +1,10 @@
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 
-@SuppressWarnings("serial")
-public class VentanaControl extends JFrame{
+public class VentanaControl{
+	
+	private JFrame ventana = new JFrame();
+	
 	JLabel contMuseo = new JLabel("Gente en el museo: ");
 	JLabel salasMuseo = new JLabel("Salas del museo: ");
 	JLabel maxSala = new JLabel("Aforo máximo por sala: ");
@@ -11,13 +13,19 @@ public class VentanaControl extends JFrame{
 	JLabel JTcontMuseo = new JLabel();
 	JLabel JTsalasMuseo = new JLabel();
 	JLabel JTmaxSala = new JLabel();
-	JLabel[] JTcontSala;
 	
-	public VentanaControl(int numSalas){
-		super("Ventana de Control del museo");
-		this.setLayout(null);
+	JLabel sala1 = new JLabel("Sala 1: ");
+	JLabel sala2 = new JLabel("Sala 2: ");
+	JLabel sala3 = new JLabel("Sala 3: ");
+	
+	public VentanaControl(int aforoSala, int salas){
+		ventana.setTitle("Ventana de Control del museo");
+		ventana.setLayout(null);
 		
-		JTcontSala = new JLabel[numSalas];
+
+		JTmaxSala.setText(Integer.toString(aforoSala));
+
+		JTsalasMuseo.setText(Integer.toString(salas));
 		
 		contMuseo.setBounds(20, 20, 150, 20);
 		salasMuseo.setBounds(20, 40, 150, 20);
@@ -28,36 +36,35 @@ public class VentanaControl extends JFrame{
 		JTsalasMuseo.setBounds(125, 40, 100, 20);
 		JTmaxSala.setBounds(160, 60, 100, 20);
 		
-		int cont = 0;
-		for (int i = 0; i < numSalas; i++) {
-			JTcontSala[i].setBounds(50, 100 + cont, 100, 20);
-			cont += 20;
-			this.add(JTcontSala[i]);
-		}
+		sala1.setBounds(140, 100, 100, 20);
+		sala2.setBounds(140, 120, 100, 20);
+		sala3.setBounds(140, 140, 100, 20);
 		
-		this.add(contMuseo);
-		this.add(salasMuseo);
-		this.add(maxSala);
-		this.add(contSala);
+		ventana.add(contMuseo);
+		ventana.add(salasMuseo);
+		ventana.add(maxSala);
+		ventana.add(contSala);
 		
-		this.add(JTcontMuseo);
-		this.add(JTsalasMuseo);
-		this.add(JTmaxSala);
+		ventana.add(JTcontMuseo);
+		ventana.add(JTsalasMuseo);
+		ventana.add(JTmaxSala);
 		
-		this.setSize(400, 200);
-		this.setVisible(true);
-		this.setLocation(1000, 0);
+		ventana.add(sala1);
+		ventana.add(sala2);
+		ventana.add(sala3);
+		
+		ventana.setSize(400, 200);
+		ventana.setVisible(true);
+		ventana.setLocation(1000, 0);
 	}
 	
-	public void actualizaDatos(int contMuseoNuevo, int[] contSalaNuevo, int aforoSala){
+	public void actualizaDatos(int genteEnMuseo, int[] genteEnSala){
 		
-		this.JTcontMuseo.setText(String.valueOf(contMuseoNuevo));
-		this.JTsalasMuseo.setText(String.valueOf(contSalaNuevo.length));
-		this.JTmaxSala.setText(String.valueOf(aforoSala));
+		JTcontMuseo.setText(Integer.toString(genteEnMuseo));
 		
-		for (int i = 0; i < contSalaNuevo.length; i++) {
-			this.JTcontSala[i].setText("Sala " + (i+1) + ": " + contSalaNuevo[i]);
-		}
+		sala1.setText("Sala 1: " + genteEnSala[0]);
+		sala2.setText("Sala 2: " + genteEnSala[1]);
+		sala3.setText("Sala 3: " + genteEnSala[2]);
 			
 	}
 }

@@ -3,21 +3,50 @@
  * 	del museo en total
  */
 public class Museo {
-	public VentanaControl ventanaControl;
-	public int contMuseo; //Cuento el aforo total del museo
-	public int[] contSala; //Cuento el aforo de cada sala
-	public int aforoSala; //Este es el másximo de personas que caben en una sala
+	public int limiteMuseo; //Cuento el límite del museo
+	public int visitantesTotal; //Cuánta gente ha visitado el museo
+	public int visitantesEntran;
+	public int visitantesActual;
+	public VentanaControl ventana;
+	public int[] genteEnSalas = new int[3];
 	
 	//Constructor
-	public Museo(int salas, int aforoSala, VentanaControl ventanaControl) {
-		this.ventanaControl = ventanaControl;
-		this.contMuseo = 0;
-		this.aforoSala = aforoSala;
-		contSala = new int[salas];
-		for (int i = 0; i < salas; i++)
-			contSala[i] = 0;
+	public Museo(int limiteMuseo, int aforoSalas) {
+		this.limiteMuseo = limiteMuseo;
+		this.visitantesTotal = 0;
+		this.visitantesEntran = 0;
+		this.visitantesActual = 0;
+		this.ventana = new VentanaControl(aforoSalas, 3);
 		
-		ventanaControl.actualizaDatos(this.contMuseo, this.contSala, this.aforoSala);
+		for (int i = 0; i < 3; i++)
+			genteEnSalas[i] = 0;
+		
+		ventana.actualizaDatos(visitantesActual, genteEnSalas);
+	}
+	
+	public boolean entradaDisponible() {
+		visitantesTotal++;
+		if (limiteMuseo > 0) {
+			visitantesEntran++;
+			limiteMuseo--;
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public void actualizaSala(int i, boolean entra) {
+		if (entra) {
+			if (i == 0)
+				visitantesActual++;
+			genteEnSalas[i]++;
+		}else {
+			if (i == 2)
+				visitantesActual--;
+			genteEnSalas[i]--;
+		}
+		
+		ventana.actualizaDatos(visitantesActual, genteEnSalas);
 	}
 	
 	
