@@ -2,7 +2,6 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 
 public class VentanaControl{
-	
 	private JFrame ventana = new JFrame();
 	
 	JLabel contMuseo = new JLabel("Gente en el museo: ");
@@ -14,9 +13,7 @@ public class VentanaControl{
 	JLabel JTsalasMuseo = new JLabel();
 	JLabel JTmaxSala = new JLabel();
 	
-	JLabel sala1 = new JLabel("Sala 1: ");
-	JLabel sala2 = new JLabel("Sala 2: ");
-	JLabel sala3 = new JLabel("Sala 3: ");
+	JLabel[] aforoSalas;
 	
 	public VentanaControl(int aforoSala, int salas){
 		ventana.setTitle("Ventana de Control del museo");
@@ -36,9 +33,15 @@ public class VentanaControl{
 		JTsalasMuseo.setBounds(125, 40, 100, 20);
 		JTmaxSala.setBounds(160, 60, 100, 20);
 		
-		sala1.setBounds(140, 100, 100, 20);
-		sala2.setBounds(140, 120, 100, 20);
-		sala3.setBounds(140, 140, 100, 20);
+		int cont = 100;
+		aforoSalas = new JLabel[salas];
+		for (int i = 0; i < salas; i++) {
+			aforoSalas[i] = new JLabel("Sala " + (i+1) + ": 0");
+			aforoSalas[i].setBounds(140, cont, 100, 20);
+			cont += 20;
+			ventana.add(aforoSalas[i]);
+		}
+		
 		
 		ventana.add(contMuseo);
 		ventana.add(salasMuseo);
@@ -49,11 +52,7 @@ public class VentanaControl{
 		ventana.add(JTsalasMuseo);
 		ventana.add(JTmaxSala);
 		
-		ventana.add(sala1);
-		ventana.add(sala2);
-		ventana.add(sala3);
-		
-		ventana.setSize(400, 200);
+		ventana.setSize(400, 100+cont);
 		ventana.setVisible(true);
 		ventana.setLocation(1000, 0);
 	}
@@ -61,10 +60,8 @@ public class VentanaControl{
 	public void actualizaDatos(int genteEnMuseo, int[] genteEnSala){
 		
 		JTcontMuseo.setText(Integer.toString(genteEnMuseo));
+		for (int i = 0; i <genteEnSala.length; i++)
+			aforoSalas[i].setText("Sala " + (i+1) + ": " + genteEnSala[i]);
 		
-		sala1.setText("Sala 1: " + genteEnSala[0]);
-		sala2.setText("Sala 2: " + genteEnSala[1]);
-		sala3.setText("Sala 3: " + genteEnSala[2]);
-			
 	}
 }

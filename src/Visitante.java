@@ -6,17 +6,18 @@ public class Visitante extends Thread {
 	Museo museo;
 	Semaphore aforoMuseo;
 	Semaphore[] aforoSalas;
+	Semaphore[] controlSalas;
 	
-	public Visitante(int nombre, int grupo, Semaphore aforoMuseo, Semaphore[] aforoSalas, Museo museo) {
+	public Visitante(int nombre, int grupo, Semaphore aforoMuseo, Semaphore[] aforoSalas, Semaphore[] controlSalas, Museo museo) {
 		this.nombre = "Visitante " + nombre;
 		this.grupo = "Grupo " + grupo;
 		this.aforoMuseo = aforoMuseo;
 		this.aforoSalas = aforoSalas;
+		this.controlSalas = controlSalas;
 		this.museo = museo;
 	}
 
 	public void run() {
-		
 		try {
 			System.out.println("El " + this.nombre + " del " + grupo + " quiere entrar al museo");
 			aforoMuseo.acquire(); //Compruebo el aforo del museo
@@ -26,16 +27,19 @@ public class Visitante extends Thread {
 			if (entrada){
 				for (int i = 0; i <aforoSalas.length; i++) {
 					aforoSalas[i].acquire(); //Comprueba el aforo de la sala para entrar
+					controlSalas[i].acquire(); //No pueden acceder 2 al método al mismo tiempo
 					museo.actualizaSala(i, true);
+					controlSalas[i].release();
 					
 					System.out.println("El " + this.nombre + " del " + grupo + " entra en la sala" + (i+1));
 					sleep((long) (Math.random() * 2000));
 					
+					controlSalas[i].acquire();
 					museo.actualizaSala(i, false);
+					controlSalas[i].release();
 					aforoSalas[i].release(); //Libera la sala
 					System.out.println("El " + this.nombre + " del " + grupo + " sale de la sala" + (i+1));
 				}
-				
 				
 				System.out.println("El " + this.nombre + " del " + grupo + " sale del museo");
 				
