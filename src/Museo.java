@@ -1,14 +1,11 @@
-/*Tiene los contadores.
- * 	De cada sala
- * 	del museo en total
- */
+
 public class Museo {
 	public int limiteMuseo; //Cuento el límite del museo
-	public int visitantesTotal; //Cuánta gente ha visitado el museo
-	public int visitantesEntran;
-	public int visitantesActual;
+	public int visitantesTotal; //Cuánta gente ha intentado visitar el museo
+	public int visitantesEntran; //Gente que entra
+	public int visitantesActual; //gente en el museo en directo
 	public VentanaControl ventana;
-	public int[] genteEnSalas = new int[3];
+	public int[] genteEnSalas = new int[3]; //Gente por sala en directo
 	
 	//Constructor
 	public Museo(int limiteMuseo, int aforoSalas) {
@@ -26,9 +23,8 @@ public class Museo {
 	
 	public boolean entradaDisponible() {
 		visitantesTotal++;
-		if (limiteMuseo > 0) {
+		if (visitantesEntran < limiteMuseo) {
 			visitantesEntran++;
-			limiteMuseo--;
 			return true;
 		}else {
 			return false;
